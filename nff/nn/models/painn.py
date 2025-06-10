@@ -191,7 +191,7 @@ class Painn(nn.Module):
 
     def pool(self, batch, atomwise_out, xyz, r_ij, nbrs, inference=False):
         # import here to avoid circular imports
-        from nff.train import batch_detach
+        # from nff.train import batch_detach
 
         if not hasattr(self, "output_keys"):
             self.output_keys = list(self.readout_blocks[0].readoutdict.keys())
@@ -216,8 +216,8 @@ class Painn(nn.Module):
                 out_keys=[key],
             )
 
-            if inference:
-                results = batch_detach(results)
+            # if inference:
+            #     results = batch_detach(results)
             all_results.update(results)
 
         # transfer those results that don't get pooled
