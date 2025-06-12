@@ -113,9 +113,9 @@ class Dense(nn.Module):
         """
         Reinitialize model parameters.
         """
-        self.weight_init(self.weight)
-        if self.bias is not None:
-            self.bias_init(self.bias)
+        self.weight_init(self.linear.weight)
+        if self.linear.bias is not None:
+            self.bias_init(self.linear.bias)
 
     def forward(self, inputs):
         """
