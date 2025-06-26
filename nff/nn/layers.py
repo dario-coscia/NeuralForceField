@@ -78,7 +78,7 @@ class GaussianSmearing(nn.Module):
         return result
 
 
-class Dense(nn.Linear):
+class Dense(nn.Module):
     """Applies a dense layer with activation: :math:`y = activation(Wx + b)`
 
     Args:
@@ -100,11 +100,10 @@ class Dense(nn.Linear):
         weight_init=xavier_uniform_,
         bias_init=zeros_initializer,
     ):
+        super().__init__()
         self.weight_init = weight_init
         self.bias_init = bias_init
-
-        super().__init__(in_features, out_features, bias)
-
+        self.linear = nn.Linear(in_features, out_features, bias)
         self.activation = activation
         self.dropout = nn.Dropout(p=dropout_rate)
 
@@ -125,7 +124,7 @@ class Dense(nn.Linear):
             torch.Tensor: Output of the dense layer.
         """
         self.to(inputs.device)
-        y = super().forward(inputs)
+        y = self.linear(inputs)
 
         # kept for compatibility with earlier versions of nff
         if hasattr(self, "dropout"):
